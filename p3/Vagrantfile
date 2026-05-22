@@ -1,0 +1,24 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "debian/bookworm64"
+
+  config.vm.define "agalletS" do |server|
+    server.vm.hostname = "agalletS"
+    server.vm.network "forwarded_port", guest: 8888, host: 8888
+
+    server.vm.provider "virtualbox" do |vb|
+      vb.name   = "agalletS-p3"
+      vb.memory = 4096
+      vb.cpus   = 2
+    end
+
+    server.vm.provision "shell", privileged: true, inline: <<-SHELL
+      apt-get update -qq
+      apt-get install -y -qq curl ca-certificates
+      curl -fsSL https://get.docker.com | sh
+      usermod -aG docker vagrant
+      systemctl enable docker
+    SHELL
+
+    server.vm.provision "shell", privileged: true, path: "scripts/install.sh"
+  end
+end

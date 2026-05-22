@@ -1,0 +1,19 @@
+# Vagrant
+.vagrant/
+*.log
+*.retry
+
+# Kubernetes
+.kube/
+kubeconfig
+k3s.yaml
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
